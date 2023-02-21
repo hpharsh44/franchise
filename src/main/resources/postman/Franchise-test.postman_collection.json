@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "42b18900-f9bd-4739-a7e0-beee462f97c7",
+		"name": "Franchise-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1104726"
+	},
+	"item": [
+		{
+			"name": "Franchise",
+			"item": [
+				{
+					"name": "Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"franchiseId\": 1,\r\n    \"customerId\": 1,\r\n    \"menuId\": 1,\r\n    \"orderType\": \"TAKE_AWAY\",\r\n    \"pickUpTime\": \"2018-09-13T18:41:02.363Z\",\r\n    \"menuItemAndQuantityMap\": {\r\n        \"1\": \"2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/franchise/order",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"franchise",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateOrder",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"franchiseId\": 1,\r\n    \"orderId\": 12,\r\n    \"orderStatus\":\"COMPLETED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/franchise/order",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"franchise",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customer Orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"franchiseId\": 1,\r\n    \"customerId\": 1,\r\n    \"menuId\": 1,\r\n    \"orderType\": \"TAKE_AWAY\",\r\n    \"pickUpTime\": \"2022-10-07T12:59:11.332\",\r\n    \"menuItemAndQuantityMap\": {\r\n        \"1\": \"2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/customer/:customer_id/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customer",
+								":customer_id",
+								"orders"
+							],
+							"variable": [
+								{
+									"key": "customer_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get customer Order By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"franchiseId\": 1,\r\n    \"customerId\": 1,\r\n    \"menuId\": 1,\r\n    \"orderType\": \"TAKE_AWAY\",\r\n    \"pickUpTime\": \"2022-10-07T12:59:11.332\",\r\n    \"menuItemAndQuantityMap\": {\r\n        \"1\": \"2\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/customer/:customer_id/orders/:order_id",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customer",
+								":customer_id",
+								"orders",
+								":order_id"
+							],
+							"variable": [
+								{
+									"key": "customer_id",
+									"value": "1"
+								},
+								{
+									"key": "order_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

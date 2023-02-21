@@ -1,0 +1,311 @@
+openapi: 3.0.1
+info:
+  title: franchise-service
+  version: 1.0.0
+  description: franchise-service
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Franchise
+    description: Franchise service API
+
+paths:
+  /customer/{customer_id}/orders:
+    get:
+      tags:
+        - Franchise
+      summary: Customer
+      description: Get Customer Order
+      operationId: getAllCustomerOrder
+      parameters:
+        - name: customer_id
+          in: path
+          description: customer_id
+          required: true
+          schema:
+            type: long
+          example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerOrderListResponse'
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+  /customer/{customer_id}/orders/{order_id}:
+    get:
+      tags:
+        - Franchise
+      summary: Customer
+      description: Get Customer Order By Order ID
+      operationId: getCustomerOrderByOrderId
+      parameters:
+        - name: customer_id
+          in: path
+          description: customer_id
+          required: true
+          schema:
+            type: long
+          example: 1
+        - name: order_id
+          in: path
+          description: order_id
+          required: true
+          schema:
+            type: long
+          example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerOrder'
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+  /franchise/order:
+    post:
+      tags:
+        - Franchise
+      summary: Place Order
+      operationId: placeOrder
+      requestBody:
+        description: Place Order
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerOrder'
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      tags:
+        - Franchise
+      summary: Update Order Status
+      operationId: updateOrderStatus
+      requestBody:
+        description: Update Order Status
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderStatusRequest'
+      responses:
+        503:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        200:
+          description: Retrieve data successfully
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Data Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Input data is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    CustomerOrderListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/CustomerOrder'
+    CustomerOrder:
+      type: object
+      properties:
+        id:
+          type: long
+        customerId:
+          type: long
+        franchiseId:
+          type: long
+        menuId:
+          type: long
+        totalAmount:
+          type: number
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrderItem'
+        orderStatus:
+          type: string
+          enum:
+            - QUEUED
+            - PROCESSING
+            - COMPLETED
+            - CANCELLED
+            - FAILED
+        orderType:
+          type: string
+          enum:
+            - DINING
+            - TAKE_AWAY
+        pickUpTime:
+          type: string
+          format: date-time
+        message:
+          type: string
+    CustomerOrderItem:
+      type: object
+      properties:
+        id:
+          type: long
+        menuItemId:
+          type: long
+        price:
+          type: number
+        quntity:
+          type: integer
+    ErrorResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Http Error Code
+          example: 500
+        message:
+          type: string
+          description: Error Message
+          example: 'Internal Server Error'
+    OrderRequest:
+      type: object
+      properties:
+        franchiseId:
+          type: long
+        customerId:
+          type: long
+        menuId:
+          type: long
+        orderType:
+          type: string
+          enum:
+            - DINING
+            - TAKE_AWAY
+        pickUpTime:
+          type: string
+          format: date-time
+        menuItemAndQuantityMap:
+          type: object
+          additionalProperties:
+            type: number
+            properties:
+              quantity:
+                type: number
+    UpdateOrderStatusRequest:
+      type: object
+      properties:
+        franchiseId:
+          type: long
+        orderId:
+          type: long
+        orderStatus:
+          type: string
+          enum:
+            - QUEUED
+            - PROCESSING
+            - COMPLETED
+            - CANCELLED
+            - FAILED
+
+
+

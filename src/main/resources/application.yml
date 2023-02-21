@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/franchise
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platfrom: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.yml
+  main:
+    allow-bean-definition-overriding: true
+  show-sql: true
